@@ -1,4 +1,0 @@
-Note: The compiled .exe is unsigned. When you run it, Windows will show a SmartScreen warning. Please click "More info" -> "Run anyway" to proceed. For full transparency, you can always review and run the provided source code.
-
-https://www.dropbox.com/scl/fi/rxsfobsjeoqlmh24uxrsr/exe_Archive.zip?rlkey=y9keb2i4uj508oowjpk6pmzsc&st=tx3smajq&dl=0
-
