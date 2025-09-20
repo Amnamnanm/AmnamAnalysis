@@ -1,4 +1,4 @@
-AmanAnalysis: Security Analysis Tool
+AmnamAnalysis: Security Analysis Tool
 
 ![alt text](https://img.shields.io/badge/python-3.10+-blue.svg)
 
@@ -6,7 +6,7 @@ AmanAnalysis: Security Analysis Tool
 ![alt text](https://img.shields.io/badge/license-MIT-green.svg)
 
 
-AmanAnalysis is a GUI-based tool designed for static and runtime analysis of executable files and directories to identify potentially malicious behavior. It provides a user-friendly interface to collect data, analyze logs, and generate risk assessments, with an optional AI-powered summary feature.
+AmnamAnalysis is a GUI-based tool designed for static and runtime analysis of executable files and directories to identify potentially malicious behavior. It provides a user-friendly interface to collect data, analyze logs, and generate risk assessments, with an optional AI-powered summary feature.
 
 # Features
 
@@ -76,5 +76,6 @@ This is an open-source project and contributions are welcome! Feel free to open 
 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
 
 
