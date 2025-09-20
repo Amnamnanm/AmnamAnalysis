@@ -6,8 +6,6 @@ AmanAnalysis: Security Analysis Tool
 ![alt text](https://img.shields.io/badge/license-MIT-green.svg)
 
 
-![alt text](https://img.shields.io/github/v/release/YOUR_USERNAME/AmanAnalysis)
-
 AmanAnalysis is a GUI-based tool designed for static and runtime analysis of executable files and directories to identify potentially malicious behavior. It provides a user-friendly interface to collect data, analyze logs, and generate risk assessments, with an optional AI-powered summary feature.
 
 # Features
@@ -78,4 +76,5 @@ This is an open-source project and contributions are welcome! Feel free to open 
 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
 
