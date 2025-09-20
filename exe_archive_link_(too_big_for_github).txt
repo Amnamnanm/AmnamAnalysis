@@ -1,0 +1,2 @@
+The .exe archive is too big for Github, so I uploaded it on Google Drive. If you don't trust it - it's fine. You can use the source code in .py file
+https://drive.google.com/file/d/1DwSFokC3giRXksi1e_4A8ftVCE_DpO2G/view?usp=sharing
