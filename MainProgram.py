@@ -67,7 +67,7 @@ class AISettings:
         self.prompt_template_detailed = (
             "You are a security analyst. Your task is to provide a risk level based on a summary and contextual log snippets.\n"
             "First, review the main report. Then, use the contextual snippets from the full log to verify if the suspicious items are truly malicious or just benign activity.\n"
-            "Provide a final risk level (Low, Medium, High) and a clear, concise explanation for your decision.\n\n"
+            "Provide a final risk level (Low, Medium, High) and a clear, concise explanation for your decision. Don't always trust the quick summary. Always check the main log and check if the process owner is legit.\n\n"
             "--- MAIN REPORT ---\n{findings_text}\n\n"
             "--- CONTEXTUAL SNIPPETS FROM FULL LOG ---\n{snippet_text}\n\n"
             "--- YOUR FINAL ANALYSIS ---\n"
@@ -428,18 +428,34 @@ def analyze_logs(log_dirs: List[Path], program_type: str) -> Tuple[str, str]:
             if len(unique_lines) >= 20:
                 break
         findings.extend(unique_lines)
+    
     if urls:
-        findings.append("\nSample URLs:")
-        for i, u in enumerate(sorted(urls)[:20], 1):
+        findings.append(f"\nSample URLs (up to 20 of {len(urls)}):")
+        for i, u in enumerate(sorted(list(urls))[:20], 1):
             findings.append(f"  {i}. {u}")
+        if len(urls) > 20:
+            findings.append("\n--- Full List of All URLs ---")
+            for u in sorted(list(urls)):
+                findings.append(f"- {u}")
+
     if ips:
-        findings.append("\nSample IPs:")
-        for i, ip in enumerate(sorted(ips)[:20], 1):
+        findings.append(f"\nSample IPs (up to 20 of {len(ips)}):")
+        for i, ip in enumerate(sorted(list(ips))[:20], 1):
             findings.append(f"  {i}. {ip}")
+        if len(ips) > 20:
+            findings.append("\n--- Full List of All IPs ---")
+            for ip in sorted(list(ips)):
+                findings.append(f"- {ip}")
+
     if domains:
-        findings.append("\nSample domains:")
-        for i, d in enumerate(sorted(domains)[:20], 1):
+        findings.append(f"\nSample Domains (up to 20 of {len(domains)}):")
+        for i, d in enumerate(sorted(list(domains))[:20], 1):
             findings.append(f"  {i}. {d}")
+        if len(domains) > 20:
+            findings.append("\n--- Full List of All Domains ---")
+            for d in sorted(list(domains)):
+                findings.append(f"- {d}")
+    
     result = "\n".join(findings) + "\n"
     write_text(FINDINGS, result)
     append_master_log("Log analysis completed.")
@@ -785,6 +801,10 @@ class App(ctk.CTk):
 
 def main():
     multiprocessing.freeze_support()
+    if len(sys.argv) > 0:
+        script_name = os.path.basename(sys.argv[0])
+    else:
+        script_name = "your_script_name.py"
     app = App()
     app.mainloop()
 
