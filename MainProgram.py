@@ -494,22 +494,35 @@ def analyze_logs(log_dirs: List[Path], program_type: str) -> Tuple[str, str]:
     if suspicious_hits:
         findings.append(f"\nSuspicious keywords hits ({len(suspicious_hits)} total):")
         for hit in suspicious_hits:
-            if "pid" in hit: findings.append(f"  - Keyword: '{hit['keyword']}', Process: {hit['name']} (PID: {hit['pid']}), Path: {hit['path']}")
-            else: findings.append(f"  - Keyword: '{hit['keyword']}' found in: {hit['source']}")
-    
-    def format_indicator_list(name, indicator_set):
-        if not indicator_set: return
-        findings.append(f"\nFound {name} ({len(indicator_set)} total):")
-        for item, pid, proc_name, path in sorted(list(indicator_set)):
-            if pid: findings.append(f"  - {item} (in process: {proc_name}, PID: {pid})")
-            else: findings.append(f"  - {item}")
+            if "pid" in hit:
+                findings.append(f"  - Keyword: '{hit['keyword']}', Process: {hit['name']} (PID: {hit['pid']}), Path: {hit['path']}")
+            elif hit.get("keyword"):
+                findings.append(f"  - Keyword: '{hit['keyword']}' found in: {hit['source']}")
+            else:
+                findings.append("  - Unknown keyword hit")
 
-    format_indicator_list("URLs", urls)
-    format_indicator_list("IPs", ips)
-    format_indicator_list("Domains", domains)
+    format_indicator_list("URLs", urls, findings)
+    format_indicator_list("IPs", ips, findings)
+    format_indicator_list("Domains", domains, findings)
 
     result = "\n".join(findings) + "\n"; write_text(FINDINGS, result); append_master_log("Log analysis completed.")
     return result, ""
+
+def format_indicator_list(name, indicator_set, findings):
+    if not indicator_set:
+        return
+    clean_set = [x for x in indicator_set if len(x) == 4]
+    findings.append(f"\nFound {name} ({len(clean_set)} total):")
+    for item, pid, proc_name, path in sorted(
+        clean_set,
+        key=lambda x: (x[0] or "", x[1] or "", x[2] or "", x[3] or "")
+    ):
+        item = item or "<unknown>"
+        proc_name = proc_name or "N/A"
+        if pid:
+            findings.append(f"  - {item} (in process: {proc_name}, PID: {pid})")
+        else:
+            findings.append(f"  - {item}")
 
 def list_models() -> List[str]:
     try:
